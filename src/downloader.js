@@ -36,5 +36,3 @@ function handleIframe(iframe) {
 
 // Observer 설정
 observer.observe(document.body, { childList: true, subtree: true });
-
-

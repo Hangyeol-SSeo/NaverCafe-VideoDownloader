@@ -10,17 +10,6 @@ function displayVideoSources(videoSources) {
             const listItem = document.createElement('li');
             listItem.textContent = videoSource.subject;
 
-            // // 콤보박스 추가
-            // const comboBox = document.createElement('select');
-            // comboBox.id = 'qualitySelect';
-            // ['270p', '480p', '720p', '1080p'].forEach(optionValue => {
-            //     const option = document.createElement('option');
-            //     option.value = optionValue;
-            //     option.textContent = optionValue;
-            //     comboBox.appendChild(option);
-            // });
-            // listItem.appendChild(comboBox);
-
             // 다운로드 버튼 추가
             const downloadBtn = document.createElement('button');
             downloadBtn.className = 'download-btn';
@@ -39,15 +28,18 @@ function handleDownloadClick(videoSource) {
     // 현재 항목의 콤보박스에서 선택된 값을 가져옵니다.
     const comboBox = document.getElementById('qualitySelect');
     const selectedEncoding = comboBox.value;
-    console.log(selectedEncoding);
+    //console.log(selectedEncoding);
 
     // videoSource에서 일치하는 encodingName을 찾습니다.
     const matchedVideo = videoSource.videos.find(video => video.encodingName === selectedEncoding);
-    console.log(matchedVideo);
+    //console.log(matchedVideo);
 
     // 일치하는 항목의 source를 사용하여 동영상을 다운로드합니다.
     if (matchedVideo) {
         chrome.downloads.download({ url: matchedVideo.source });
+    }
+    if (matchedVideo === undefined) {
+        alert('동영상이 없습니다');
     }
 }
 

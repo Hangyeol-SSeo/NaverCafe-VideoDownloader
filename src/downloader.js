@@ -21,10 +21,10 @@ function handleIframe(iframe) {
                     if (textElements.length > 0) {
                         // 동영상 제목을 popup.js로 전송
                         //chrome.runtime.sendMessage({videoTitle: textElements[0].textContent});
-                        console.log(textElements[0].textContent);
+                        //console.log(textElements[0].textContent);
 
                         if (!textElements[0].querySelector('button')) {
-                            textElements[0].appendChild(button); // 버튼추가
+                            //textElements[0].appendChild(button); // 버튼추가
                             console.log('button added');
                         }
                     }

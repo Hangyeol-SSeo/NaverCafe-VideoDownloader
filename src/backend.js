@@ -4,7 +4,7 @@ let detectedUrls = new Set(); // 중복 요청을 방지하기 위한 Set
 chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
         if (details.url.startsWith("https://apis.naver.com/rmcnmv/rmcnmv/vod/play/v2.0/") && !detectedUrls.has(details.url)) {
-            detectedUrls.add(details.url); // 중복 요청 방지를 위해 감지된 URL을 Set에 추가
+            detectedUrls.add(details.url); // 중복 요청 방지를 위해 감지된 URL
             //console.log(details.url);
 
             // fetch를 사용하여 해당 URL로 GET 요청을 보냅니다.

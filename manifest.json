@@ -20,7 +20,8 @@
   },
   "permissions": [
     "webRequest",
-    "storage"
+    "storage",
+    "downloads"
   ],
   "host_permissions": [
     "*://cafe.naver.com/*",

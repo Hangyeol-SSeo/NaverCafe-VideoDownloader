@@ -21,6 +21,7 @@ ul {
 li {
     padding: 8px;
     border-bottom: 1px solid #e0e0e0;
+    position: relative; /* li 요소를 position의 기준점으로 설정 */
 }
 
 footer {
@@ -29,7 +30,6 @@ footer {
     padding: 10px;
     text-align: center;
 }
-
 
 .footer-img {
     width: 32px;
@@ -101,13 +101,14 @@ footer {
     margin: 10px;
 }
 
-/* 리스트 아이템 내 버튼 스타일 */
 .download-btn {
-    float: right;
-    background-image: url('../icons/download_button.png');
-    background-size: cover;
-    width: 24px;
-    height: 24px;
-    border: none;
-    cursor: pointer;
+    width: 24px; /* 버튼의 너비 */
+    height: 24px; /* 버튼의 높이 */
+    background-image: url('../icons/download_button.png'); /* 이미지 설정 */
+    background-size: cover; /* 이미지 크기 조절 */
+    cursor: pointer; /* 마우스 커서 변경 */
+    position: absolute; /* 절대 위치 설정 */
+    top: 50%; /* 상위 요소의 중간 위치 */
+    right: 0; /* 오른쪽에 붙임 */
+    transform: translateY(-50%); /* 수직 중앙 정렬 */
 }

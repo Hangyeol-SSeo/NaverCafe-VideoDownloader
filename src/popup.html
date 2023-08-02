@@ -12,9 +12,19 @@
     <h1>Naver cafe</br>Video downloader</h1>
 </header>
 
-<ul id="videoList">
+<div class="combobox-container">
+    <select id="qualitySelect">
+        <option value="270p">270p</option>
+        <option value="480p">480p</option>
+        <option value="720p">720p</option>
+        <option value="1080p">1080p</option>
+    </select>
+</div>
 
+
+<ul id="videoList">
 </ul>
+<div id="noVideoMessage">동영상이 없습니다</div>
 <script src="popup.js"></script>
 
 

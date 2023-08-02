@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    width: 340px;
+    width: 350px;
     overflow: auto;
 }
 
@@ -25,7 +25,7 @@ li {
 
 footer {
     background-color: #f5f5f5;
-    width: 100%;
+    align-content: center;
     padding: 10px;
     text-align: center;
 }
@@ -59,4 +59,55 @@ footer {
 
 .footer-link:hover .hover-text {
     opacity: 1;
+}
+
+.combobox-container {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    margin: 10px; /* 상하 여백 추가 */
+}
+
+/* 콤보박스 스타일 개선 */
+#qualitySelect {
+    width: 60%; /* 너비 조절 */
+    padding: 5px; /* 내부 패딩 추가 */
+    border: 1px solid #e0e0e0; /* 테두리 스타일 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    font-size: 14px; /* 글자 크기 조절 */;
+    appearance: none; /* 기본 브라우저 스타일 제거 */
+    background-color: #f5f5f5; /* 배경색 */
+    cursor: pointer; /* 마우스 커서 변경 */
+    text-align: center; /* 글자 가운데 정렬 */
+}
+
+/* 콤보박스 화살표 부분 디자인 */
+#qualitySelect::-ms-expand {
+    display: none; /* IE용 화살표 제거 */
+}
+
+#qualitySelect::after {
+    content: '\25BC'; /* 화살표 아이콘 */
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none; /* 클릭 이벤트 무시 */
+}
+
+/* 동영상이 없을 때의 문구 스타일 */
+#noVideoMessage {
+    text-align: center;
+    margin: 10px;
+}
+
+/* 리스트 아이템 내 버튼 스타일 */
+.download-btn {
+    float: right;
+    background-image: url('../icons/download_button.png');
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+    border: none;
+    cursor: pointer;
 }

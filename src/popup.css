@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     width: 340px;
-    overflow: hidden;
+    overflow: auto;
 }
 
 header {
@@ -25,12 +25,11 @@ li {
 
 footer {
     background-color: #f5f5f5;
-    position: absolute;
-    bottom: 0;
     width: 100%;
     padding: 10px;
     text-align: center;
 }
+
 
 .footer-img {
     width: 32px;

@@ -5,7 +5,7 @@ chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
         if (details.url.startsWith("https://apis.naver.com/rmcnmv/rmcnmv/vod/play/v2.0/") && !detectedUrls.has(details.url)) {
             detectedUrls.add(details.url); // 중복 요청 방지를 위해 감지된 URL을 Set에 추가
-            console.log(details.url);
+            //console.log(details.url);
 
             // fetch를 사용하여 해당 URL로 GET 요청을 보냅니다.
             fetch(details.url)
@@ -19,7 +19,7 @@ chrome.webRequest.onBeforeRequest.addListener(
                         subject: data.meta.subject,
                         videos: videoInfoList
                     });
-                    console.log(videoSources);
+                    //console.log(videoSources);
                     // 로컬 스토리지에 저장
                     chrome.storage.local.set({videoSources: videoSources}, function() {
                         console.log('Data saved to chrome.storage.local');

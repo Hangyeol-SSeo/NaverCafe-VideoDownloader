@@ -1,4 +1,7 @@
 function displayVideoSources(videoSources) {
+    /*
+     * 제목이 같은 경우는???
+     */
     const listElement = document.getElementById('videoList');
     const noVideoMessage = document.getElementById('noVideoMessage');
 
@@ -39,7 +42,7 @@ function handleDownloadClick(videoSource) {
         chrome.downloads.download({ url: matchedVideo.source });
     }
     if (matchedVideo === undefined) {
-        alert('동영상이 없습니다');
+        showToast('선택한 화질이 없습니다');
     }
 }
 
@@ -51,3 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+function showToast(message, duration = 2000) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    setTimeout(function() {
+        toast.classList.remove("show");
+    }, duration);
+}

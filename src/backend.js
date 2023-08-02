@@ -46,6 +46,9 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     }
 });
 
+/*
+ * 다른 탭을 삭제해도 없어지는 오류 수정해야 함
+ */
 chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
     // 탭이 종료되면 videoSources와 detectedUrls를 초기화합니다.
     videoSources = [];

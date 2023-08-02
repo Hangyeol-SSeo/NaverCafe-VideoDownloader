@@ -19,7 +19,8 @@
     "default_popup": "src/popup.html"
   },
   "permissions": [
-    "webRequest"
+    "webRequest",
+    "storage"
   ],
   "host_permissions": [
     "*://cafe.naver.com/*",

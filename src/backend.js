@@ -34,7 +34,7 @@ chrome.webRequest.onBeforeRequest.addListener(
 );
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    if (changeInfo.status === 'complete') {
+    if (changeInfo.status === 'complete' && tab.url && tab.url.includes('cafe.naver.com')) {
         // 페이지 로드가 완료되면 videoSources와 detectedUrls를 초기화합니다.
         videoSources = [];
         detectedUrls.clear();
@@ -44,5 +44,15 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
             });
         }
     }
+});
 
+chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
+    // 탭이 종료되면 videoSources와 detectedUrls를 초기화합니다.
+    videoSources = [];
+    detectedUrls.clear();
+    if (chrome.storage && chrome.storage.local) {
+        chrome.storage.local.remove('videoSources', () => {
+            console.log('videoSources data removed from local storage on tab close.');
+        });
+    }
 });

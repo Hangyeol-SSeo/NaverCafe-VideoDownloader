@@ -20,7 +20,7 @@ ex) 1080p가 없는 경우는 해당 화질 다운로드 불가
 <br/>
 
 ## Installation
-### [Chrome 웹 스토어](https://chrome.google.com/webstore/category/extensions?hl=ko)에서 다운받을 수 있습니다!
+### [Chrome 웹 스토어](https://chrome.google.com/webstore/detail/navercafe-video-downloade/glclhpipfpfammoflcfnknnlddkgpdoe?utm_source=app-launcher&authuser=0)에서 다운받을 수 있습니다!
 <br/>
 
 ### 직접 다운받는 방법

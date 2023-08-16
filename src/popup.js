@@ -48,10 +48,13 @@ function handleDownloadClick(videoSource) {
 
 // 팝업이 로드될 때 저장된 정보를 화면에 표시
 document.addEventListener('DOMContentLoaded', () => {
-    chrome.storage.local.get('videoSources', (result) => {
-        if (result.videoSources) {
-            displayVideoSources(result.videoSources);
-        }
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        let tab = String(tabs[0].id);
+        chrome.storage.local.get(tab, (result) => {
+            if (result[tab]) {
+                displayVideoSources(result[tab]);
+            }
+        });
     });
 });
 

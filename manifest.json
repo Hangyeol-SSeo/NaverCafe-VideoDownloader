@@ -1,6 +1,6 @@
 {
   "name": "NaverCafe video downloader",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "manifest_version": 3,
   "author": "Hangyeol-SSeo <dongha313@gmail.com>",
   "description": "네이버 카페의 동영상들을 쉽게 다운로드 할 수 있는 서비스.",

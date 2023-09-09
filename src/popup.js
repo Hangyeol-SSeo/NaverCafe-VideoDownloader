@@ -1,6 +1,28 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // 팝업이 로드될 때 저장된 해상도 값을 불러옴
+    chrome.storage.local.get('selectedQuality', function(data) {
+        const comboBox = document.getElementById('qualitySelect');
+        if (data.selectedQuality) {
+            comboBox.value = data.selectedQuality;
+        } else {
+            comboBox.value = '1080p'; // 기본값
+        }
+    });
+
+    // 콤보 박스의 값이 변경될 때마다 해당 값을 저장
+    document.getElementById('qualitySelect').addEventListener('change', function() {
+        var selectedValue = this.value;
+        chrome.storage.local.set({ 'selectedQuality': selectedValue });
+    });
+});
+
+
 function displayVideoSources(videoSources) {
     /*
      * 제목이 같은 경우는???
+     * 팝업을 닫아도 선택한 화질이 변경되지 않도록...
+     * 광고추가
+     * 파일 이름 수정
      */
     const listElement = document.getElementById('videoList');
     const noVideoMessage = document.getElementById('noVideoMessage');
@@ -31,7 +53,7 @@ function handleDownloadClick(videoSource) {
     // 현재 항목의 콤보박스에서 선택된 값을 가져옵니다.
     const comboBox = document.getElementById('qualitySelect');
     const selectedEncoding = comboBox.value;
-    //console.log(selectedEncoding);
+    console.log(selectedEncoding);
 
     // videoSource에서 일치하는 encodingName을 찾습니다.
     const matchedVideo = videoSource.videos.find(video => video.encodingName === selectedEncoding);

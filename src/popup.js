@@ -18,12 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function displayVideoSources(videoSources) {
-    /*
-     * 제목이 같은 경우는???
-     * 팝업을 닫아도 선택한 화질이 변경되지 않도록...
-     * 광고추가
-     * 파일 이름 수정
-     */
     const listElement = document.getElementById('videoList');
     const noVideoMessage = document.getElementById('noVideoMessage');
 
@@ -61,7 +55,9 @@ function handleDownloadClick(videoSource) {
 
     // 일치하는 항목의 source를 사용하여 동영상을 다운로드합니다.
     if (matchedVideo) {
-        chrome.downloads.download({ url: matchedVideo.source });
+        const filename = sanitizeFilename(videoSource.subject)
+        chrome.downloads.download({ url: matchedVideo.source, filename: filename + ".mp4"});
+        showToast(videoSource.subject + '  download');
     }
     if (matchedVideo === undefined) {
         showToast('선택한 화질이 없습니다');
@@ -89,3 +85,17 @@ function showToast(message, duration = 2000) {
         toast.classList.remove("show");
     }, duration);
 }
+
+function sanitizeFilename(filename) {
+    // 영어 알파벳, 한글, 숫자, 하이픈(-), 언더스코어(_), 공백 및 마침표(.)만을 허용합니다.
+    let sanitized = filename.replace(/[^a-zA-Z0-9가-힣\-_.]/g, '_');
+
+    // 파일 이름 끝의 공백과 마침표를 제거합니다
+    sanitized = sanitized.replace(/[\s.]+$/g, '');
+
+    return sanitized;
+}
+
+
+
+

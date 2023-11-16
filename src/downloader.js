@@ -4,7 +4,7 @@ const observer = new MutationObserver((mutationsList, observer) => {
             const iframe = getIframe();
             if (iframe) {
                 handleIframe(iframe);
-                observer.disconnect();  // iframe을 찾았으므로 Observer를 중지합니다.
+                observer.disconnect();
             }
         }
     }

@@ -56,7 +56,12 @@ function handleDownloadClick(videoSource) {
     // 일치하는 항목의 source를 사용하여 동영상을 다운로드합니다.
     if (matchedVideo) {
         const filename = sanitizeFilename(videoSource.subject)
-        chrome.downloads.download({ url: matchedVideo.source, filename: filename + ".mp4"});
+        // TODO: 파일 이름 에러시 처리
+        chrome.downloads.download({ url: matchedVideo.source, filename: filename + ".mp4"}, function(downloadId) {
+            if (chrome.runtime.lastError) {
+               chrome.downloads.download({ url: matchedVideo.source });
+            }
+        });
         showToast(videoSource.subject + '  download');
     }
     if (matchedVideo === undefined) {

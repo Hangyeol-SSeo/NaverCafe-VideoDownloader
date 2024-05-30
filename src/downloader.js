@@ -16,17 +16,17 @@ function handleIframe(iframe) {
             .then((iframeDoc) => {
                 //console.log(iframeDoc.getElementsByClassName('se-media-meta-info-wrap'));
                 for (let targetElement of iframeDoc.getElementsByClassName('se-media-meta-info-wrap')) {
-                    button = createButton();
+                    const button = createButton();
                     const textElements = targetElement.getElementsByClassName('se-media-meta-info-title-text');
                     if (textElements.length > 0) {
                         // 동영상 제목을 popup.js로 전송
                         //chrome.runtime.sendMessage({videoTitle: textElements[0].textContent});
                         //console.log(textElements[0].textContent);
 
-                        if (!textElements[0].querySelector('button')) {
-                            //textElements[0].appendChild(button); // 버튼추가
-                            console.log('button added');
-                        }
+                        // if (!textElements[0].querySelector('button')) {
+                        //     //textElements[0].insertAdjacentElement(button); // 버튼추가
+                        //     //console.log('button added');
+                        // }
                     }
                 }
             })

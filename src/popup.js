@@ -28,6 +28,7 @@ function displayVideoSources(videoSources) {
         videoSources.forEach(videoSource => {
             const listItem = document.createElement('li');
             listItem.textContent = videoSource.subject;
+            //console.log(videoSource.subject);
 
             // 다운로드 버튼 추가
             const downloadBtn = document.createElement('button');

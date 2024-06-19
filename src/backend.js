@@ -49,9 +49,6 @@ chrome.webRequest.onBeforeRequest.addListener(
             code: videoCode,
             videos: videoInfoList,
           });
-          encodings = data.videos.list.map(
-            (video) => video.encodingOption.name
-          );
         } else {
           console.log("Unexpected data structure:", data);
         }
@@ -71,7 +68,6 @@ chrome.webRequest.onBeforeRequest.addListener(
         console.error("Error fetching the URL:", error);
       }
     }
-    await chrome.storage.local.set({ encodings: encodings });
   },
   {
     urls: [

@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  console.log(encodings);
   // 팝업이 로드될 때 저장된 해상도 값을 불러옴
   chrome.storage.local.get("selectedQuality", function (data) {
     const comboBox = document.getElementById("qualitySelect");
@@ -26,7 +25,14 @@ function displayVideoSources(videoSources) {
   if (videoSources.length === 0) {
     noVideoMessage.style.display = "block";
   } else {
-    noVideoMessage.style.display = "none";
+    // noVideoMessage.style.display = "none";
+    noVideoMessage.innerText = "영상을 클릭하시면 해상도를 고를 수 있습니다.";
+
+    const qualitySelect = document.getElementById("qualitySelect");
+    qualitySelect.childNodes.forEach((node) => {
+      qualitySelect.removeChild(node);
+    });
+
     videoSources.forEach((videoSource) => {
       const listItem = document.createElement("li");
       listItem.textContent = videoSource.subject;
@@ -41,6 +47,29 @@ function displayVideoSources(videoSources) {
       listItem.appendChild(downloadBtn);
 
       listElement.appendChild(listItem);
+
+      listItem.addEventListener("click", () => {
+        lis = document.getElementsByTagName("li");
+        for (let i = 0; i < lis.length; i++) {
+          lis[i].style.backgroundColor = "#FFFFFF";
+        }
+
+        listItem.style.backgroundColor = "#BFBFBF";
+
+        qualitySelect.innerHTML = "";
+        console.log(videoSource.videos);
+        let videos = videoSource.videos.sort((a, b) => {
+          console.log(a.encodingName, b.encodingName);
+          return a.encodingName < b.encodingName ? 1 : -1;
+        });
+        console.log(videos);
+        videos.forEach((video) => {
+          const option = document.createElement("option");
+          option.value = video.encodingName;
+          option.text = video.encodingName;
+          qualitySelect.appendChild(option);
+        });
+      });
     });
   }
 }
@@ -85,15 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (result[tab]) {
         displayVideoSources(result[tab]);
       }
-    });
-    chrome.storage.local.get("encodings", (result) => {
-      result.encodings.forEach((encoding) => {
-        let option = document.createElement("option");
-        option.value = encoding;
-        option.text = encoding;
-        console.log(encoding);
-        document.getElementById("qualitySelect").options.add(option);
-      });
     });
   });
 });

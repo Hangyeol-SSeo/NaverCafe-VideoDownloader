@@ -20,7 +20,8 @@
   "permissions": [
     "webRequest",
     "storage",
-    "downloads"
+    "downloads",
+    "tabs"
   ],
   "host_permissions": [
     "*://cafe.naver.com/*",
@@ -31,7 +32,9 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://cafe.naver.com/*"],
+      "matches": [
+        "*://cafe.naver.com/*"
+      ],
       "js": [
         "src/downloader.js",
         "src/resource.js"
@@ -41,8 +44,12 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["icons/download_button.png"],
-      "matches": ["<all_urls>"]
+      "resources": [
+        "icons/download_button.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ]
 }

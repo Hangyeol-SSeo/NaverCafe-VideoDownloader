@@ -1,138 +1,141 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    width: 350px;
-    overflow: auto;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 350px;
+  overflow: auto;
 }
 
 header {
-    background-color: #f5f5f5;
-    padding: 10px;
-    text-align: center;
+  background-color: #f5f5f5;
+  padding: 10px;
+  text-align: center;
 }
 
 ul {
-    list-style-type: none;
-    margin: 10px;
-    padding: 0;
+  list-style-type: none;
+  margin: 10px;
+  padding: 0;
 }
 
 li {
-    padding: 8px;
-    border-bottom: 1px solid #e0e0e0;
-    position: relative; /* li 요소를 position의 기준점으로 설정 */
+  padding: 8px;
+  border-bottom: 1px solid #e0e0e0;
+  position: relative; /* li 요소를 position의 기준점으로 설정 */
+}
+
+li:hover {
+  background-color: #d9d9d9 !important;
 }
 
 footer {
-    background-color: #f5f5f5;
-    align-content: center;
-    padding: 10px;
-    text-align: center;
+  background-color: #f5f5f5;
+  align-content: center;
+  padding: 10px;
+  text-align: center;
 }
 
 .footer-img {
-    width: 32px;
-    height: 32px;
-    margin: 10px;
+  width: 32px;
+  height: 32px;
+  margin: 10px;
 }
 
 .footer-link {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .hover-text {
-    position: absolute;
-    left: 50%;
-    bottom: 100%;
-    transform: translateX(-67%) translateY(-5px);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    white-space: nowrap;
-    margin-left: 10px;
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: #fff;
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-67%) translateY(-5px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+  margin-left: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #fff;
 }
 
 .footer-link:hover .hover-text {
-    opacity: 1;
+  opacity: 1;
 }
 
 .combobox-container {
-    display: flex;
-    justify-content: center; /* 가로 중앙 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
-    margin: 10px; /* 상하 여백 추가 */
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  margin: 10px; /* 상하 여백 추가 */
 }
 
 /* 콤보박스 스타일 개선 */
 #qualitySelect {
-    width: 60%; /* 너비 조절 */
-    padding: 5px; /* 내부 패딩 추가 */
-    border: 1px solid #e0e0e0; /* 테두리 스타일 */
-    border-radius: 5px; /* 모서리 둥글게 */
-    font-size: 14px; /* 글자 크기 조절 */;
-    appearance: none; /* 기본 브라우저 스타일 제거 */
-    background-color: #f5f5f5; /* 배경색 */
-    cursor: pointer; /* 마우스 커서 변경 */
-    text-align: center; /* 글자 가운데 정렬 */
+  width: 60%; /* 너비 조절 */
+  padding: 5px; /* 내부 패딩 추가 */
+  border: 1px solid #e0e0e0; /* 테두리 스타일 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  font-size: 14px; /* 글자 크기 조절 */
+  appearance: none; /* 기본 브라우저 스타일 제거 */
+  background-color: #f5f5f5; /* 배경색 */
+  cursor: pointer; /* 마우스 커서 변경 */
+  text-align: center; /* 글자 가운데 정렬 */
 }
 
 /* 콤보박스 화살표 부분 디자인 */
 #qualitySelect::-ms-expand {
-    display: none; /* IE용 화살표 제거 */
+  display: none; /* IE용 화살표 제거 */
 }
 
 #qualitySelect::after {
-    content: '\25BC'; /* 화살표 아이콘 */
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    pointer-events: none; /* 클릭 이벤트 무시 */
+  content: "\25BC"; /* 화살표 아이콘 */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none; /* 클릭 이벤트 무시 */
 }
 
 /* 동영상이 없을 때의 문구 스타일 */
 #noVideoMessage {
-    text-align: center;
-    margin: 10px;
+  text-align: center;
+  margin: 10px;
 }
 
 .download-btn {
-    width: 24px; /* 버튼의 너비 */
-    height: 24px; /* 버튼의 높이 */
-    background-image: url('../icons/download_button.png'); /* 이미지 설정 */
-    background-size: cover; /* 이미지 크기 조절 */
-    cursor: pointer; /* 마우스 커서 변경 */
-    position: absolute; /* 절대 위치 설정 */
-    top: 50%; /* 상위 요소의 중간 위치 */
-    right: 0; /* 오른쪽에 붙임 */
-    transform: translateY(-50%); /* 수직 중앙 정렬 */
+  width: 24px; /* 버튼의 너비 */
+  height: 24px; /* 버튼의 높이 */
+  background-image: url("../icons/download_button.png"); /* 이미지 설정 */
+  background-size: cover; /* 이미지 크기 조절 */
+  cursor: pointer; /* 마우스 커서 변경 */
+  position: absolute; /* 절대 위치 설정 */
+  top: 50%; /* 상위 요소의 중간 위치 */
+  right: 0; /* 오른쪽에 붙임 */
+  transform: translateY(-50%); /* 수직 중앙 정렬 */
 }
 
 .toast {
-    visibility: hidden;
-    min-width: 150px;
-    margin-left: -90px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 2px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    bottom: 30px;
-    font-size: 17px;
-    transition: visibility 0.5s, opacity 0.5s linear;
-    opacity: 0;
+  visibility: hidden;
+  min-width: 150px;
+  margin-left: -90px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+  transition: visibility 0.5s, opacity 0.5s linear;
+  opacity: 0;
 }
 
 .toast.show {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
-

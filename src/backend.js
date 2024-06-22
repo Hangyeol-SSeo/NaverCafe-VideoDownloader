@@ -90,7 +90,7 @@ async function fetchVideoTitleFromHtml(apiUrl, videoCode) {
         // console.log(pureTitle[index]);
         return pureTitle[index];
     } catch (error) {
-        console.error("Error fetching video title from HTML:", error);
+        console.log("Error fetching video title from HTML:", error);
         return '';
     }
 }

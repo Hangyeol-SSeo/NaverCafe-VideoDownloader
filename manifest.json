@@ -1,10 +1,10 @@
 {
   "name": "NaverCafe video downloader",
-  "version": "1.4.0",
+  "version": "1.0.0",
   "manifest_version": 3,
-  "author": "Hangyeol-SSeo <dongha313@gmail.com>",
+  "author": "Kim Syehoon <syehoon.kim@sbs.co.kr>",
   "description": "네이버 카페의 동영상들을 쉽게 다운로드 할 수 있는 서비스.",
-  "homepage_url": "https://github.com/Hangyeol-SSeo/NaverCafe-VideoDownloader",
+  "homepage_url": "https://github.com/syehoonkim/NaverCafe-VideoDownloader",
   "icons": {
     "128": "icons/128.png",
     "48": "icons/48.png",

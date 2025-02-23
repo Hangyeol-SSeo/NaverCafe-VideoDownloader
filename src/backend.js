@@ -62,6 +62,12 @@ function extractVideoCode(url) {
     return '';
 }
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === "getActiveTabId") {
+        sendResponse({ tabId: sender.tab ? sender.tab.id : null });
+    }
+});
+
 // 탭 업데이트 시 해당 탭의 데이터와 스토리지 정리
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (changeInfo.status === 'loading') {

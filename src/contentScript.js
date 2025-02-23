@@ -1,18 +1,40 @@
-function getIframe() {
-    // console.log(document.body);
-    // console.log(document.querySelector('.ArticleContentBox'));
-    // console.log(document.querySelector('.se-media-meta-info-title-text'));
+function getContainer() {
     return document.querySelector('body');
 }
 
-function getIframeDocument(iframe) {
+function getActiveTabId() {
     return new Promise((resolve, reject) => {
-        if (iframe) {
-            resolve(iframe.contentWindow.document);
-        } else {
-            reject('Iframe not found.');
-        }
+        chrome.runtime.sendMessage({ action: "getActiveTabId" }, (response) => {
+            if (chrome.runtime.lastError) {
+                return reject(chrome.runtime.lastError);
+            }
+            if (response && response.tabId !== undefined) {
+                resolve(response.tabId);
+            } else {
+                reject("No tab id received.");
+            }
+        });
     });
+}
+
+// 현재 탭의 videoSources 데이터를 storage에서 가져오는 함수
+async function getCurrentTabVideoSources() {
+    try {
+        const tabId = await getActiveTabId();
+        const tabKey = String(tabId);
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get(tabKey, (result) => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                } else {
+                    resolve(result[tabKey]);
+                }
+            });
+        });
+    } catch (error) {
+        console.error("Error getting video sources for current tab:", error);
+        throw error;
+    }
 }
 
 function createButton() {
@@ -28,15 +50,20 @@ function createButton() {
 
     button.classList.add('download-btn');
     button.onclick = function () {
-        alert('Button clicked!');
+        getCurrentTabVideoSources()
+            .then(videoSources => {
+                console.log("Video sources for current tab:", videoSources);
+            })
+            .catch(error => {
+                console.error("Failed to retrieve video sources:", error);
+            });
     };
     button.appendChild(img);
     return button;
 }
 
-function insertButtons(iframeDoc) {
-    const titleContainers = iframeDoc.querySelectorAll('.se-media-meta-info-wrap');
-    console.log(titleContainers);
+function insertButtons(doc) {
+    const titleContainers = doc.querySelectorAll('.se-media-meta-info-wrap');
     titleContainers.forEach(container => {
         const titleElementContainer = container.querySelector('.se-media-meta-info-title-only');
         titleElementContainer.style.display = "flex";
@@ -44,7 +71,6 @@ function insertButtons(iframeDoc) {
 
         const titleElement = container.querySelector('.se-media-meta-info-title-text');
         if (titleElement && !titleElement.querySelector('.download-btn')) {
-
             const button = createButton();
             titleElement.insertAdjacentElement('afterend', button);
             console.log('Button inserted next to title:', titleElement.textContent);
@@ -52,24 +78,24 @@ function insertButtons(iframeDoc) {
     });
 }
 
-function handleIframe(iframe) {
-    insertButtons(iframe);
+function handleContent(body) {
+    insertButtons(body);
 
     const observer = new MutationObserver((mutationsList) => {
         for (let mutation of mutationsList) {
             if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                insertButtons(iframe);
+                insertButtons(body);
             }
         }
     });
-    observer.observe(iframeDoc.body, { childList: true, subtree: true });
+    observer.observe(body, { childList: true, subtree: true });
 }
 
 window.onload = () => {
     setTimeout(() => {
-        const iframe = getIframe();
-        if (iframe) {
-            handleIframe(iframe);
+        const body = getContainer();
+        if (body) {
+            insertButtons(body);
         } else {
             console.error('Iframe with id "cafe_main" not found after waiting.');
         }

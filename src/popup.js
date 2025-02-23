@@ -46,7 +46,7 @@ function displayVideoSources(videoSources) {
             // 다운로드 버튼 추가
             const downloadBtn = document.createElement('button');
             downloadBtn.className = 'download-btn';
-            downloadBtn.setAttribute('aria-label', `Download ${videoSource.subject}`); // (NEW) 접근성 개선
+            downloadBtn.setAttribute('aria-label', `Download ${videoSource.subject}`);
             downloadBtn.addEventListener('click', function() {
                 handleDownloadClick(videoSource);
             });

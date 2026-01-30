@@ -104,7 +104,12 @@ function createButton(titleText) {
             if (targetVideo) {
                 const bestSource = getBestVideoSource(targetVideo.videos);
                 if (bestSource) {
-                    const filename = (targetVideo.subject || "video") + ".mp4";
+                    // 화면에 보이는 제목(titleText)을 우선 사용, 없으면 API 제목 사용
+                    let rawTitle = titleText && titleText.trim() ? titleText.trim() : targetVideo.subject;
+                    // 파일명으로 쓸 수 없는 문자 제거 (/, :, *, ?, ", <, >, |)
+                    rawTitle = rawTitle.replace(/[\\/:*?"<>|]/g, "_");
+                    
+                    const filename = (rawTitle || "video") + ".mp4";
                     chrome.runtime.sendMessage({
                         action: "download",
                         url: bestSource.source,

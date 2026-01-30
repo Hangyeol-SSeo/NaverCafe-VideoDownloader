@@ -37,67 +37,152 @@ async function getCurrentTabVideoSources() {
     }
 }
 
-function createButton() {
+
+function normalizeText(text) {
+    return text ? text.replace(/\s+/g, '').trim() : '';
+}
+
+function getBestVideoSource(videoList) {
+    if (!videoList || videoList.length === 0) return null;
+    // 화질 우선순위 정의
+    const qualityOrder = ['1080p', '720p', '480p', '360p', '270p'];
+    
+    for (const quality of qualityOrder) {
+        const found = videoList.find(v => v.encodingName === quality);
+        if (found) return found;
+    }
+    // 우선순위에 없으면 첫 번째 것 반환
+    return videoList[0];
+}
+
+function createButton(titleText) {
     const button = document.createElement('button');
-    button.style.marginLeft = "10px";
-    button.style.width = "24px";
-    button.style.height = "24px";
+    button.title = "동영상 다운로드";
+    Object.assign(button.style, {
+        marginLeft: "10px",
+        width: "24px",
+        height: "24px",
+        cursor: "pointer",
+        border: "none",
+        background: "transparent",
+        padding: "0"
+    });
 
     const img = document.createElement('img');
     img.src = chrome.runtime.getURL('icons/download_button.png');
-    img.style.width = "24px";
-    img.style.height = "24px";
+    Object.assign(img.style, {
+        width: "24px",
+        height: "24px",
+        display: "block"
+    });
 
     button.classList.add('download-btn');
-    button.onclick = function () {
-        getCurrentTabVideoSources()
-            .then(videoSources => {
-                console.log("Video sources for current tab:", videoSources);
-            })
-            .catch(error => {
-                console.error("Failed to retrieve video sources:", error);
-            });
+    
+    button.onclick = async function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        try {
+            const videoSources = await getCurrentTabVideoSources();
+            if (!videoSources || videoSources.length === 0) {
+                alert("다운로드할 동영상 정보를 찾을 수 없습니다. 영상을 재생한 후 다시 시도해주세요.");
+                return;
+            }
+
+            console.log("Searching for title:", titleText);
+            console.log("Available sources:", videoSources);
+
+            // 제목으로 매칭 시도
+            const cleanTitle = normalizeText(titleText);
+            let targetVideo = videoSources.find(source => normalizeText(source.subject) === cleanTitle);
+            
+            // 제목 매칭 실패 시, 소스가 하나뿐이면 그 소스를 사용 (일반적인 경우)
+            if (!targetVideo && videoSources.length === 1) {
+                targetVideo = videoSources[0];
+            }
+
+            if (targetVideo) {
+                const bestSource = getBestVideoSource(targetVideo.videos);
+                if (bestSource) {
+                    const filename = (targetVideo.subject || "video") + ".mp4";
+                    chrome.runtime.sendMessage({
+                        action: "download",
+                        url: bestSource.source,
+                        filename: filename
+                    }, (response) => {
+                        if (response && response.success) {
+                           // 다운로드 시작 성공
+                        } else {
+                           alert("다운로드 시작 실패: " + (response ? response.error : "Unknown error"));
+                        }
+                    });
+                } else {
+                    alert("사용 가능한 비디오 소스가 없습니다.");
+                }
+            } else {
+                alert("일치하는 동영상을 찾을 수 없습니다. (제목 불일치)");
+            }
+
+        } catch (error) {
+            console.error("Failed to retrieve video sources:", error);
+            alert("오류가 발생했습니다: " + error);
+        }
     };
     button.appendChild(img);
     return button;
 }
 
-function insertButtons(doc) {
-    const titleContainers = doc.querySelectorAll('.se-media-meta-info-wrap');
-    titleContainers.forEach(container => {
-        const titleElementContainer = container.querySelector('.se-media-meta-info-title-only');
-        titleElementContainer.style.display = "flex";
-        container.style.alignItems = "center";
 
-        const titleElement = container.querySelector('.se-media-meta-info-title-text');
-        if (titleElement && !titleElement.querySelector('.download-btn')) {
-            const button = createButton();
-            titleElement.insertAdjacentElement('afterend', button);
-            console.log('Button inserted next to title:', titleElement.textContent);
+function insertButtons(doc) {
+    const titleTexts = doc.querySelectorAll('.se-media-meta-info-title-text');
+    titleTexts.forEach(titleElement => {
+        // 이미 버튼이 있는지 확인 (바로 다음 형제 요소)
+        const next = titleElement.nextElementSibling;
+        if (next && next.classList.contains('download-btn')) {
+            return;
         }
+
+        // 버튼 생성 및 삽입
+        const button = createButton(titleElement.textContent);
+        
+        // 타이틀이 inline 요소라면 바로 옆에 잘 붙겠지만, 
+        // 부모의 정렬 문제가 있을 수 있음. 필요시 부모 스타일 조정.
+        const parent = titleElement.parentElement;
+        if (parent) {
+            parent.style.display = "flex";
+            parent.style.alignItems = "center";
+        }
+
+        titleElement.insertAdjacentElement('afterend', button);
+        console.log('Button inserted next to title:', titleElement.textContent);
     });
 }
 
-function handleContent(body) {
-    insertButtons(body);
+
+function handleContent() {
+    const body = document.body;
+    if (!body) return;
+
+    insertButtons(document);
 
     const observer = new MutationObserver((mutationsList) => {
         for (let mutation of mutationsList) {
             if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                insertButtons(body);
+                insertButtons(document);
             }
         }
     });
     observer.observe(body, { childList: true, subtree: true });
 }
 
-window.onload = () => {
-    setTimeout(() => {
-        const body = getContainer();
-        if (body) {
-            insertButtons(body);
-        } else {
-            console.error('Iframe with id "cafe_main" not found after waiting.');
-        }
-    }, 500);
-};
+// 초기 실행 및 주기적 확인 (SPA 대응)
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', handleContent);
+} else {
+    handleContent();
+}
+
+// 혹시 모를 로딩 지연에 대비하여 주기적으로 체크
+setInterval(() => {
+    insertButtons(document);
+}, 2000);
